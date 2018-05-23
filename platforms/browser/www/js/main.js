@@ -13,7 +13,6 @@ function getsetScreenSize() {
 }
 
 function goPage(pageName) {
-    alert(pageName)
     window.location.href = pageName;
 }
 
@@ -56,5 +55,17 @@ function getItemDateMonth(ts)
 {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Augu", "Sep", "Oct", "Nov", "Dec"];
     var d = new Date(ts);
-    return monthNames[d.getMonth()] + " " + d.getFullYear();
+    //Month - 1 because array starts with zero while Month starts with 1
+    var r = monthNames[d.getMonth() - 1] + " " + d.getFullYear();
+    return r;
+}
+
+function getDiv(className, divText)
+{
+    var rtn = document.createElement("div");
+    rtn.className = className;
+    var txt = document.createTextNode(divText);
+    rtn.appendChild(txt);
+
+    return rtn;
 }

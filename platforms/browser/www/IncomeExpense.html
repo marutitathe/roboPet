@@ -9,13 +9,39 @@
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <title>RoboPet</title>
 
+    <script type="text/javascript" src="cordova.js"></script>
+
+
     <script type="text/javascript" src="js/main.js"></script>
 
     <script language="javascript">
         var screenHeight=0;
         var screenWidth = 0;
         var canvas;
+        var incExp = 0;
+        var aalEejWel = 0;
 
+        function checkDeviceReady() {
+            document.addEventListener("deviceready", onDeviceReady, false);
+        }
+        function onDeviceReady()
+        {
+            aalEejWel = 1;
+
+            var element = document.getElementById('deviceProperties');
+
+            element.innerHTML = 'Device Name: ' + device.name + '<br />' +
+                                'Device PhoneGap: ' + device.phonegap + '<br />' +
+                                'Device Platform: ' + device.platform + '<br />' +
+                                'Device UUID: ' + device.uuid + '<br />' +
+                                'Device Version: ' + device.version + '<br />';
+
+
+            alert("Ready");
+            //window.plugins.toast.showShortTop("Device Ready")
+            window.plugins.toast.show("msg", "short", "center");
+            
+        }
 
         function showIncExpBox(incOrExp)
         {
@@ -24,11 +50,13 @@
             {
                 t.innerText = "Income Entry";
                 fillIncomeCats();
+                incExp = 1;
             }
             else
             {
                 t.innerHTML = "Expense Entry";
                 fillExpenseCats();
+                incExp=0;
             }
 
             b = document.getElementById("incExpBox");
@@ -62,12 +90,52 @@
 
         }
 
+        function saveIncExp()
+        {
+            var _IEDate = Date.parse(document.getElementById("entryDate").value);
+            if(isNaN(_IEDate))
+            {
+                window.plugins.toast.showShortTop("Wrong Date Entered");
+                document.getElementById("entryDate").focus();
+                return;
+            }
+
+            var CategoryList = document.getElementById("ddlCat");
+            var _Category = CategoryList[CategoryList.selectedIndex].value;
+
+            var _IEDetail = document.getElementById("txtDetails").value.toString().trim();
+
+            var _Amount = document.getElementById("txtAmount").value;
+            if(isNaN(_Amount))
+            {
+                window.plugins.toast.showShortTop("Wrong Amount Format");
+                document.getElementById("txtAmount").focus();
+                return;
+            }
+            if (_Amount <= 0)
+            {
+                window.plugins.toast.showShortTop("Wrong Amount Entered (Zero Value Not Allowed)");
+                document.getElementById("txtAmount").focus();
+                return;
+            }
+
+            //Starg Saving Process As It Looks Ass OK
+            if(aalEejWel)
+            {
+
+            }
+            else
+            {
+                window.plugins.toast.showShortTop("It Seems That Device Is Not Ready.");
+            }
+            
+        }
         
     </script>
 
 
 </head>
-<body>
+<body onload="checkDeviceReady();">
     <div id="mainCanvas">
         <div class="canvasTitle">
             <img src="img\backbutton1.png" alt="goBack" onclick="javascript: window.history.back();" />
@@ -78,7 +146,6 @@
             <div id="menuList_" class="menuList">
                 <div class="menuItem green" onclick="return showIncExpBox(1);">
                     <img src="" alt="" />Income
-
                 </div>
                 <div class="menuItem red" onclick="return showIncExpBox(0);">
                     <img src="" alt="" />Expense
@@ -90,21 +157,21 @@
                 <br />
                 <input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" />
                 <select id="ddlCat" class="ddlCat genInput">
-                    <option value="value">General Exp</option>
-                    <option value="value">MSEB Exp</option>
+                    <option value="1">General Exp</option>
+                    <option value="2">MSEB Exp</option>
                 </select>
                 <textarea id="txtDetails" placeholder="Expense Details" rows="3" class="genInput">
 
                 </textarea>
                 <input id="txtAmount" type="number" value="0.00" class="genInput" />
 
-
-
-
                 <div class="actionButtons">
                     <input id="btnBack" type="button" value="Back" onclick="goBack();"  />
-                    <input id="btnSave" type="button" value="Save"  />
+                    <input id="btnSave" type="button" value="Save" onclick="saveIncExp();" />
                 </div>
+
+                <p id="deviceProperties">Loading device properties...</p>
+
             </div>
 
         </div>
