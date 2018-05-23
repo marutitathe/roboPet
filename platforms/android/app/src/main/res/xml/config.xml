@@ -38,9 +38,6 @@
     <feature name="Toast">
         <param name="android-package" value="nl.xservices.plugins.Toast" />
     </feature>
-    <feature name="SQLitePlugin">
-        <param name="android-package" value="io.sqlc.SQLitePlugin" />
-    </feature>
     <name>robopet</name>
     <description>
         This application helps to keep record of various things as follows.
@@ -81,4 +78,5 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
 </widget>
