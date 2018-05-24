@@ -36,11 +36,6 @@
                                 'Device UUID: ' + device.uuid + '<br />' +
                                 'Device Version: ' + device.version + '<br />';
 
-
-            alert("Ready");
-            //window.plugins.toast.showShortTop("Device Ready")
-            window.plugins.toast.show("msg", "short", "center");
-            
         }
 
         function showIncExpBox(incOrExp)
@@ -95,7 +90,7 @@
             var _IEDate = Date.parse(document.getElementById("entryDate").value);
             if(isNaN(_IEDate))
             {
-                window.plugins.toast.showShortTop("Wrong Date Entered");
+                showShortToastTop("Wrong Date Entered");
                 document.getElementById("entryDate").focus();
                 return;
             }
@@ -108,25 +103,55 @@
             var _Amount = document.getElementById("txtAmount").value;
             if(isNaN(_Amount))
             {
-                window.plugins.toast.showShortTop("Wrong Amount Format");
+                showShortToastTop("Wrong Amount Format");
                 document.getElementById("txtAmount").focus();
                 return;
             }
             if (_Amount <= 0)
             {
-                window.plugins.toast.showShortTop("Wrong Amount Entered (Zero Value Not Allowed)");
+                showShortToastTop("Wrong Amount Entered (Zero Value Not Allowed)");
                 document.getElementById("txtAmount").focus();
                 return;
             }
 
+            var db = null;
             //Starg Saving Process As It Looks Ass OK
             if(aalEejWel)
             {
+                try {
 
+
+                    if (device.platform == "Android") {
+                        db = window.sqlitePlugin.openDatabase({
+                            name: "roboPet.db", location: "default", androidDatabaseImplementation: 2
+                        });
+                    }
+                    else {
+                        db = window.openDatabase('roboPet.db', '1.0', 'roboPet Database', 2 * 1024 * 1024);
+                    }
+
+                    var strSQL = "INSERT INTO IncExp(IncExp, IEDate, category, IEDetail, Amount) VALUES(" + incExp + ", " + _IEDate + ", " + _Category + ", '" + _IEDetail + "', " + _Amount + ")"
+
+                    db.transaction(function (tx) {
+                        //tx.executeSql("DROP TABLE IF EXISTS IncExp");
+
+                        tx.executeSql(strSQL);
+                    }, errorSQL);
+
+                    var msgSuccess = "Expense Record Saved.";
+                    if (incExp == 1)
+                    {
+                        msgSuccess = "Income Record Saved";
+                    }
+                    showShortToastTop(msgSuccess);
+
+                } catch (e) {
+                    showShortToastTop(e.message);
+                }
             }
             else
             {
-                window.plugins.toast.showShortTop("It Seems That Device Is Not Ready.");
+                showShortToastTop("It Seems That Device Is Not Ready.");
             }
             
         }

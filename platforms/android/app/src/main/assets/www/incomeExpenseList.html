@@ -19,22 +19,6 @@
 
         document.addEventListener("deviceready", onDeviceReady, false);
 
-        function loadList()
-        {
-
-            var rowCount = 50;
-            for (var i = 0; i <= rowCount-1; i++) {
-                var strRow = "<div class='incExpViewIE'>" +
-                            "    <div class='incExpDateIE'>20/04/2018</div>" +
-                            "    <div class='incExpInfoIE'>General Expenses" +
-                            "        <div class='incExpDetailIE'>asdf asdf adsf adsf adsf adsf asdf adsf ads f</div>" +
-                            "    </div>" +
-                            "    <div class='incExpAmountIE'>999.50</div>" +
-                            "    <div style='clear:both'></div>" +
-                            "</div>";
-            }
-        }
-
         function onDeviceReady() 
         {
             logStep("1) DB Creation (Or Opening) Started.", 1); 
@@ -49,7 +33,16 @@
                 //    name: "roboPet.db", location: "default", androidDatabaseImplementation: 2
                 //});
 
-                db = window.openDatabase('roboPet.db', '1.0', 'roboPet Database', 2*1024*1024);
+                
+
+                if (device.platform == "Android") {
+                    db = window.sqlitePlugin.openDatabase({
+                        name: "roboPet.db", location: "default", androidDatabaseImplementation: 2
+                    });
+                }
+                else {
+                    db = window.openDatabase('roboPet.db', '1.0', 'roboPet Database', 2 * 1024 * 1024);
+                }
 
                 logStep("2) Creating Tables If Not Present.", 0);
 
@@ -57,12 +50,12 @@
                 db.transaction(function (tx) { 
                     //tx.executeSql("DROP TABLE IF EXISTS IncExp");
 
-                    tx.executeSql("CREATE TABLE IF NOT EXISTS IncExp(id integer primary key, IncExp integer, IEDate integer, category integer, IEDetail text, Amount real)");
+                    tx.executeSql("CREATE TABLE IF NOT EXISTS IncExp(id integer primary key autoincrement, IncExp integer, IEDate integer, category integer, IEDetail text, Amount real)");
                 }, errorSQL);
 
                 logStep("3) Inserting Sample Data.", 0);
                 db.transaction(function (tx) {
-                    tx.executeSql("DELETE FROM IncExp"); //Removing all records before inserting the same for test purpose
+                    //tx.executeSql("DELETE FROM IncExp"); //Removing all records before inserting the same for test purpose
 
                     //tx.executeSql("INSERT INTO IncExp (id, IncExp, IEDate, Category, IEDetail, Amount) VALUES(1, 1, " + getTimeStamp(2018, 05, 01) + ", 1, 'asdf adsf asdf asdf asdf ', 150.50)");
                     //tx.executeSql("INSERT INTO IncExp (id, IncExp, IEDate, Category, IEDetail, Amount) VALUES(2, 1, " + getTimeStamp(2018, 05, 02) + ", 1, 'aaaa bbbb ccccc ddddd eeee', 250.00)");
@@ -79,6 +72,8 @@
 
                 //logStep("4) Retrieving data from IncExp table.", 0);
 
+                var extraMsg = "";
+
                 db.transaction(function (tx) {
 
                     tx.executeSql("SELECT id, IncExp, IEDate, Category, IEDetail, Amount FROM IncExp ORDER BY IEDate DESC", [], function (rx, result) {
@@ -94,8 +89,6 @@
                         try {
                             
                             for (var i = 0; i <= rlen; i++) {
-                                //alert(getDateFromTimeStamp(result.rows.item(i).IEDate));
-
                                 //Main mainYear Panel (Div
                                 if (NewBoxNeeded) {
                                     divItemIE = document.createElement("DIV");
@@ -103,6 +96,7 @@
 
                                     //Creating Default Month Year Title
                                     //var divMy = getDiv("monthYearIE", getItemDateMonth(result.rows.item(i).IEDate));
+                                    extraMsg = "Creating Title Element";
                                     var divMY = document.createElement("div");
                                     divMY.className = "monthYearIE";
                                     var t10 = document.createTextNode(getItemDateMonth(result.rows.item(i).IEDate))
@@ -110,9 +104,13 @@
                                     divItemIE.appendChild(divMY);
                                 }
                                 //IncomeExpense Element
+                                extraMsg = "Creating IEDate div";
                                 var divDate = getDiv("incExpDateIE", getDateFromTimeStamp(result.rows.item(i).IEDate));
+                                extraMsg = "Creating category div";
                                 var divTitle = getDiv("incExpInfoIE", result.rows.item(i).Category);
+                                extraMsg = "Creating detail div";
                                 var divInfo = getDiv("incExpDetailIE", result.rows.item(i).IEDetail);
+                                extraMsg = "creting amount div";
                                 var divAmount = getDiv("incExpAmountIE", result.rows.item(i).Amount);
 
                                 var divClearBoth = document.createElement("div");
@@ -121,7 +119,7 @@
                                 var divWrapper = document.createElement("div");
                                 divWrapper.className = "incExpViewIE";
 
-
+                                extraMsg = "formating inner div";
                                 divWrapper.appendChild(divDate);
                                 divWrapper.appendChild(divTitle);
                                 divTitle.appendChild(divInfo);
@@ -143,10 +141,12 @@
                                 {
                                     var mon1;
                                     var mon2;
+                                    extraMsg = "month comparision";
                                     mon1 = getMonthFromTimeStamp(result.rows.item(i).IEDate);
                                     try {
                                         mon2 = getMonthFromTimeStamp(result.rows.item(i + 1).IEDate);
                                     } catch (e) {
+                                        extraMsg = "month comparision failed";
                                         if (e.name == "IndexSizeError") {
                                             //This could be the last row; next jumping on next row is not possible. Still it needs to be checked if the 
                                             canvasBody.appendChild(divItemIE);
@@ -166,7 +166,7 @@
                                 }
                             }
                         } catch (e) {
-                            alert(e.message);
+                            showLongToastTop(e.message + " ExtraMsg : " + extraMsg);
                             logStep(e.message, 0);
                         }
 
@@ -176,13 +176,9 @@
                 }, errorSQL);
 
             } catch (e) {
+                showLongToastTop(e.message);
                 logStep(e.message.trim(),0);
             }
-        }
-
-        function errorSQL(err)
-        {
-            logStep("Error Processing SQL Query :" + err);
         }
 
         function successSQL()

@@ -69,3 +69,35 @@ function getDiv(className, divText)
 
     return rtn;
 }
+
+function showShortToastTop(msg)
+{
+    if (device.platform == "Android") {
+        window.plugins.toast.showShortTop(msg);
+    }
+    else
+    {
+        alert(msg);
+    }
+}
+
+function showLongToastTop(msg) {
+    if (device.platform == "Android") {
+        window.plugins.toast.showLongTop(msg);
+    }
+    else {
+        alert(msg);
+    }
+}
+
+
+function errorSQL(err) {
+    logStep("Error Processing SQL Query :" + err);
+
+    if (device.platform == "Android") {
+        window.plugins.toast.showShortTop(err.message);
+    }
+    else {
+        alert(err.message);
+    }
+}
