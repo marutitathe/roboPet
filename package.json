@@ -19,13 +19,15 @@
       "cordova-plugin-network-information": {},
       "cordova-plugin-vibration": {},
       "cordova-plugin-x-toast": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "cordova-plugin-datepicker": {}
     }
   },
   "dependencies": {
     "cordova-android": "7.0.0",
     "cordova-plugin-battery-status": "~1.2.4",
     "cordova-plugin-camera": "~2.4.1",
+    "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "~1.1.6",
     "cordova-plugin-dialogs": "~1.3.3",
     "cordova-plugin-file": "~4.3.3",

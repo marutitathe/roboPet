@@ -10,6 +10,13 @@
     <script type="text/javascript" src="js/main.js"></script>
     <title>RoboPet</title>
    
+    <script>
+        function showLog()
+        {
+            var str = localStorage.getItem("logStep");
+            alert(str);
+        }
+    </script>
 </head>
 <body>
     <div id="mainCanvas">
@@ -32,8 +39,8 @@
                 <div class="menuItem">
                     <img src="" alt="" />Aur Kuch To
                 </div>
-                <div class="menuItem">
-                    <img src="" alt="" />Aur Kuch To
+                <div class="menuItem" onclick="showLog();">
+                    <img src="" alt="" />Show Log
                 </div>
             </div>
         </div>

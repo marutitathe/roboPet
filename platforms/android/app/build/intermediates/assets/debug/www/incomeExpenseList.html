@@ -21,7 +21,7 @@
 
         function onDeviceReady() 
         {
-            logStep("1) DB Creation (Or Opening) Started.", 1); 
+            logStep("0) OnDeviceReady Started.", 1); 
             try {
                 
                 //db = window.sqlitePlugin.openDatabase({
@@ -36,23 +36,23 @@
                 
 
                 if (device.platform == "Android") {
+                    logStep("1) Creting (Or Opening) SQLite DB",0)
                     db = window.sqlitePlugin.openDatabase({
                         name: "roboPet.db", location: "default", androidDatabaseImplementation: 2
                     });
                 }
                 else {
+                    logStep("1) Creting (Or Opening) WebSQL DB",0)
                     db = window.openDatabase('roboPet.db', '1.0', 'roboPet Database', 2 * 1024 * 1024);
                 }
 
                 logStep("2) Creating Tables If Not Present.", 0);
-
-
                 db.transaction(function (tx) { 
                     //tx.executeSql("DROP TABLE IF EXISTS IncExp");
 
                     tx.executeSql("CREATE TABLE IF NOT EXISTS IncExp(id integer primary key autoincrement, IncExp integer, IEDate integer, category integer, IEDetail text, Amount real)");
                 }, errorSQL);
-
+                 
                 logStep("3) Inserting Sample Data.", 0);
                 db.transaction(function (tx) {
                     //tx.executeSql("DELETE FROM IncExp"); //Removing all records before inserting the same for test purpose
@@ -166,7 +166,7 @@
                                 }
                             }
                         } catch (e) {
-                            showLongToastTop(e.message + " ExtraMsg : " + extraMsg);
+                            alert(e.message + " ExtraMsg : " + extraMsg);
                             logStep(e.message, 0);
                         }
 
@@ -176,7 +176,7 @@
                 }, errorSQL);
 
             } catch (e) {
-                showLongToastTop(e.message);
+                alert(e.message);
                 logStep(e.message.trim(),0);
             }
         }
@@ -194,7 +194,7 @@
     <div id="mainCanvas">
         <div class="canvasTitle">
             <img src="img\backbutton1.png" alt="goBack" onclick="javascript: window.history.back();" />
-            Income / Expense Z
+            Income / Expense
             <div id="subTitle">Track Income & Control Expenses</div>
         </div>
         <div id="canvasBody" class="canvasBody">

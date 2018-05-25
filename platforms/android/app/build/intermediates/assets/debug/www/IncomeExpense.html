@@ -23,7 +23,10 @@
 
         function checkDeviceReady() {
             document.addEventListener("deviceready", onDeviceReady, false);
+
         }
+
+
         function onDeviceReady()
         {
             aalEejWel = 1;
@@ -35,6 +38,50 @@
                                 'Device Platform: ' + device.platform + '<br />' +
                                 'Device UUID: ' + device.uuid + '<br />' +
                                 'Device Version: ' + device.version + '<br />';
+            var dtEntry = document.getElementById("entryDate");
+
+            //Converting HTML5 date input control into Native Date control
+            if (device.platform.toLowerCase() != "browser") {
+                dtEntry.type = "text";
+                dtEntry.readOnly = true;
+                //dtEntry.onfocus = addCalendar;
+                dtEntry.onclick = addCalendar;
+                //dtEntry.onkeydown = NoKeyAllowed;
+            }
+        }
+
+        function addCalendar()
+        {
+            calendar(this);
+        }
+
+        function NoKeyAllowed()
+        {
+            return false;
+        }
+
+        var THEME_DEVICE_DEFAULT_LIGHT = 5;
+        function calendar(o) {
+
+            o.type = "text"; //Convert the current input type so that local datePicker control is avoided
+
+            var options = {
+                date: new Date(),
+                mode: 'date',
+                androidTheme: THEME_DEVICE_DEFAULT_LIGHT,
+                doneButtonLabel: 'DONE',
+                doneButtonColor: '#F2F3F4',
+                cancelButtonLabel: 'CLOSE',
+                cancelButtonColor: '#000000'
+            };
+
+            datePicker.show(options, function (date) {
+                //var dx = Date.parse(date);
+                var dtDDMMYYYY = ("0" + date.getDate()).slice(-2) + "/" + ("0" + date.getMonth()).slice(-2) + "/" + date.getFullYear();
+                alert(dtDDMMYYYY);
+                o.value = dtDDMMYYYY;
+                o.dateValue = date;
+            });
 
         }
 
@@ -59,8 +106,6 @@
 
             b.style.display = "block";
             m.style.display = "none"; //Hide current menu to show entry box.
-
-
             
             return true;
 
@@ -87,7 +132,19 @@
 
         function saveIncExp()
         {
-            var _IEDate = Date.parse(document.getElementById("entryDate").value);
+            var extraInfo = "";
+
+            var _IEDate;
+            //If its not browser we are showing dd/MM/yyyy date which is not really a date in ANDROID or iOS
+            //hence we are saving actual date result in dateValue attribute of entryDate input text.
+            if (device.platform.toLowerCase() != "browser")
+            {
+                _IEDate = Date.parse(document.getElementById("entryDate").dateValue);
+            }
+            else
+            {
+                _IEDate = Date.parse(document.getElementById("entryDate").value);
+            }
             if(isNaN(_IEDate))
             {
                 showShortToastTop("Wrong Date Entered");
@@ -119,19 +176,20 @@
             if(aalEejWel)
             {
                 try {
-
-
                     if (device.platform == "Android") {
+                        extraInfo = "Opening SQLite DB";
                         db = window.sqlitePlugin.openDatabase({
                             name: "roboPet.db", location: "default", androidDatabaseImplementation: 2
                         });
                     }
                     else {
+                        extraInfo = "Opening WebSQL DB";
                         db = window.openDatabase('roboPet.db', '1.0', 'roboPet Database', 2 * 1024 * 1024);
                     }
 
                     var strSQL = "INSERT INTO IncExp(IncExp, IEDate, category, IEDetail, Amount) VALUES(" + incExp + ", " + _IEDate + ", " + _Category + ", '" + _IEDetail + "', " + _Amount + ")"
 
+                    extraInfo = "Performing SQL: " + strSQL;
                     db.transaction(function (tx) {
                         //tx.executeSql("DROP TABLE IF EXISTS IncExp");
 
@@ -146,15 +204,18 @@
                     showShortToastTop(msgSuccess);
 
                 } catch (e) {
-                    showShortToastTop(e.message);
+                    alert("ERROR: "+e.message)
                 }
             }
             else
             {
-                showShortToastTop("It Seems That Device Is Not Ready.");
+                showLongToastTop("It Seems That Device Is Not Ready.");
             }
             
         }
+
+
+
         
     </script>
 
@@ -180,7 +241,10 @@
             <div id="incExpBox" class="IncExp" style="display:none;margin:20px;">
                 <p id="incExpTitle">Income Entry</p>
                 <br />
-                <input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" />
+                <!--<input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" />-->
+                <!--<input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" onfocus="calendar(this);" onkeydown="return false;" />-->
+                <!-- Adding OnFocus and OnKeyDown events to this control if it is not browser (so that Android and iOS can show native datePicker) -->
+                <input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" dateValue="" />
                 <select id="ddlCat" class="ddlCat genInput">
                     <option value="1">General Exp</option>
                     <option value="2">MSEB Exp</option>
@@ -191,7 +255,7 @@
                 <input id="txtAmount" type="number" value="0.00" class="genInput" />
 
                 <div class="actionButtons">
-                    <input id="btnBack" type="button" value="Back" onclick="goBack();"  />
+                    <input id="btnBack" type="button" value="Back" onclick="goBack();"   />
                     <input id="btnSave" type="button" value="Save" onclick="saveIncExp();" />
                 </div>
 

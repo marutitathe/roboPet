@@ -42,6 +42,9 @@
     },
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "maruti.robopet.com"
+    },
+    "cordova-plugin-datepicker": {
+      "PACKAGE_NAME": "maruti.robopet.com"
     }
   },
   "dependent_plugins": {

@@ -41,18 +41,31 @@ function getTimeStamp(VYear, VMonth, VDate)
 
 function getDateFromTimeStamp(ts)
 {
+    if (isNaN(ts))
+    {
+        showLongToastTop("TimeStamp must be an Integer. FailedIn: getDateFromTimeStamp")
+        return;
+    }
     var d = new Date(ts);
     return d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
 }
 
 function getMonthFromTimeStamp(ts)
 {
+    if (isNaN(ts)) {
+        showLongToastTop("TimeStamp must be an Integer. FailedIn: getMonthFromTimeStamp")
+        return;
+    }
     var d = new Date(ts);
     return d.getMonth();
 }
 
 function getItemDateMonth(ts)
 {
+    if (isNaN(ts)) {
+        showLongToastTop("TimeStamp must be an Integer. FailedIn: getItemDateMonth")
+        return;
+    }
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Augu", "Sep", "Oct", "Nov", "Dec"];
     var d = new Date(ts);
     //Month - 1 because array starts with zero while Month starts with 1
@@ -92,12 +105,7 @@ function showLongToastTop(msg) {
 
 
 function errorSQL(err) {
-    logStep("Error Processing SQL Query :" + err);
+    logStep("Error Processing SQL Query :" + err.message);
 
-    if (device.platform == "Android") {
-        window.plugins.toast.showShortTop(err.message);
-    }
-    else {
-        alert(err.message);
-    }
+    alert("ERROR: "+ err.message);
 }

@@ -438,7 +438,8 @@ module.exports.metadata =
     "cordova-plugin-network-information": "1.3.4",
     "cordova-plugin-vibration": "2.1.6",
     "cordova-plugin-x-toast": "2.6.2",
-    "cordova-sqlite-storage": "2.3.1"
+    "cordova-sqlite-storage": "2.3.1",
+    "cordova-plugin-datepicker": "0.9.3"
 }
 // BOTTOM OF METADATA
 });

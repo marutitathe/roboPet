@@ -8,12 +8,12 @@
         "source": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\src\\main\\res\\drawable-land-xhdpi\\screen.png"
     },
     {
-        "merged": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_action_previous_item.png.flat",
-        "source": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\src\\main\\res\\drawable-xhdpi\\ic_action_previous_item.png"
-    },
-    {
         "merged": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-ldpi_screen.png.flat",
         "source": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\src\\main\\res\\drawable-land-ldpi\\screen.png"
+    },
+    {
+        "merged": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_action_previous_item.png.flat",
+        "source": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\src\\main\\res\\drawable-xhdpi\\ic_action_previous_item.png"
     },
     {
         "merged": "D:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_action_previous_item.png.flat",
