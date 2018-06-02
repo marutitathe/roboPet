@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri May 25 18:34:18 IST 2018
+#Thu May 31 20:10:26 IST 2018
 175.set=ASSET
 122.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-hdpi-v4\\ic_action_next_item.png
 60.set=ANDROID_RESOURCE
@@ -238,7 +238,7 @@
 87.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\res\\icon\\android\\drawable-xhdpi-icon.png
 97.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug
 30.set=ASSET
-126.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-port-hdpi-v4\\screen.png
+126.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-port-xhdpi-v4\\screen.png
 22.set=ASSET
 173.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\res\\icon\\ios\\icon-60.png
 141.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug
@@ -297,7 +297,7 @@
 163.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\res\\screen\\android\\drawable-port-hdpi-screen.png
 173.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug
 2.set=ASSET
-72.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-land-mdpi-v4\\screen.png
+72.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\mipmap-ldpi-v4\\icon.png
 131.set=ASSET
 79.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\res\\icon\\android\\drawable-xxxhdpi-icon.png
 123.set=ASSET
@@ -314,7 +314,7 @@
 86.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\img\\backbutton.png
 96.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 20.set=ASSET
-125.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-port-xhdpi-v4\\screen.png
+125.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-port-hdpi-v4\\screen.png
 12.set=ASSET
 172.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\res\\screen\\ios\\Default-568h@2x~iphone.png
 140.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug
@@ -374,7 +374,7 @@ count=181
 0.set=ASSET
 162.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\plugins\\cordova-plugin-x-toast\\www\\Toast.js
 172.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug
-71.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-mdpi-v4\\ic_action_previous_item.png
+71.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-land-mdpi-v4\\screen.png
 121.set=ASSET
 169.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\cordova-js-src\\android\\promptbasednativeapi.js
 179.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug
@@ -451,7 +451,7 @@ count=181
 23.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\plugins\\cordova-plugin-media-capture\\www\\MediaFile.js
 161.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\plugins\\cordova-sqlite-storage\\www\\SQLitePlugin.js
 171.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug
-70.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\mipmap-ldpi-v4\\icon.png
+70.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-mdpi-v4\\ic_action_previous_item.png
 111.set=DEX
 168.file=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug\\www\\res\\icon\\windows\\Square44x44Logo.scale-240.png
 178.base=D\:\\Maruti\\PhoneGap\\roboPet\\platforms\\android\\app\\build\\intermediates\\assets\\debug

@@ -50,10 +50,10 @@
                 db.transaction(function (tx) { 
                     //tx.executeSql("DROP TABLE IF EXISTS IncExp");
 
-                    tx.executeSql("CREATE TABLE IF NOT EXISTS IncExp(id integer primary key autoincrement, IncExp integer, IEDate integer, category integer, IEDetail text, Amount real)");
+                    tx.executeSql("CREATE TABLE IF NOT EXISTS IncExp(id integer primary key autoincrement, IncExp integer, IEDate integer, Category integer, IEDetail text, Amount real)");
                 }, errorSQL);
                  
-                logStep("3) Inserting Sample Data.", 0);
+                //logStep("3) Inserting Sample Data.", 0);
                 db.transaction(function (tx) {
                     //tx.executeSql("DELETE FROM IncExp"); //Removing all records before inserting the same for test purpose
 
@@ -75,28 +75,31 @@
                 var extraMsg = "";
 
                 db.transaction(function (tx) {
-
+                    logStep("Selectig rows from IncomeExpense.", 0);
                     tx.executeSql("SELECT id, IncExp, IEDate, Category, IEDetail, Amount FROM IncExp ORDER BY IEDate DESC", [], function (rx, result) {
 
                         var rlen = result.rows.length;
+                        logStep("Total ["+rlen+"] records found in IncomeExpense");
                         var canvasBody = document.getElementById("canvasBody");
                         var divItemIE;
                         var addElementsToDabba = 0;
                         var NewBoxNeeded = 1;
                         var divMy;
 
+
                         if (rlen == 0) return; //No Rows To Execute;
                         try {
-                            
-                            for (var i = 0; i <= rlen; i++) {
+                            logStep("Starting list creation.", 0);
+                            for (var i = 0; i <= rlen-1; i++) {
                                 //Main mainYear Panel (Div
+                                logStep("Creating Row "+i, 0);
                                 if (NewBoxNeeded) {
                                     divItemIE = document.createElement("DIV");
                                     divItemIE.className = "itemIE";
 
                                     //Creating Default Month Year Title
                                     //var divMy = getDiv("monthYearIE", getItemDateMonth(result.rows.item(i).IEDate));
-                                    extraMsg = "Creating Title Element";
+                                    extraMsg = "Creating Title Element; Date Is [" + result.rows.item(i).IEDate + "] and row is [" + i + "]";
                                     var divMY = document.createElement("div");
                                     divMY.className = "monthYearIE";
                                     var t10 = document.createTextNode(getItemDateMonth(result.rows.item(i).IEDate))
@@ -104,13 +107,20 @@
                                     divItemIE.appendChild(divMY);
                                 }
                                 //IncomeExpense Element
-                                extraMsg = "Creating IEDate div";
+                                extraMsg = "Creating IEDate div [" + result.rows.item(i).IEDate + "]";
+                                logStep("Row:" + i + " Date:" + result.rows.item(i).IEDate,0);
                                 var divDate = getDiv("incExpDateIE", getDateFromTimeStamp(result.rows.item(i).IEDate));
+
                                 extraMsg = "Creating category div";
+                                logStep("Row:" + i + " Category:" + result.rows.item(i).Category, 0);
                                 var divTitle = getDiv("incExpInfoIE", result.rows.item(i).Category);
+
                                 extraMsg = "Creating detail div";
+                                logStep("Row:" + i + " Detail:" + result.rows.item(i).IEDetail, 0);
                                 var divInfo = getDiv("incExpDetailIE", result.rows.item(i).IEDetail);
+
                                 extraMsg = "creting amount div";
+                                logStep("Row:" + i + " Amount:" + result.rows.item(i).Amount, 0);
                                 var divAmount = getDiv("incExpAmountIE", result.rows.item(i).Amount);
 
                                 var divClearBoth = document.createElement("div");
@@ -136,40 +146,67 @@
                                 //                "    <div style='clear:both'></div> " +
                                 //                "</div> ";
                                 //dabba.child
-
+                                logStep("Checking current row and last row; Current ["+i+"] and last ["+rlen+"]",0);
                                 if (i < rlen) //Current Row Is Not Last Row
                                 {
                                     var mon1;
                                     var mon2;
-                                    extraMsg = "month comparision";
+                                    extraMsg = "month comparision; Date Is [" + result.rows.item(i).IEDate + "] Row Is [" + i + "]";
+                                    logStep("Month Finding In Current Row [" + getMonthFromTimeStamp(result.rows.item(i).IEDate)+"]", 0);
                                     mon1 = getMonthFromTimeStamp(result.rows.item(i).IEDate);
-                                    try {
-                                        mon2 = getMonthFromTimeStamp(result.rows.item(i + 1).IEDate);
-                                    } catch (e) {
-                                        extraMsg = "month comparision failed";
-                                        if (e.name == "IndexSizeError") {
-                                            //This could be the last row; next jumping on next row is not possible. Still it needs to be checked if the 
-                                            canvasBody.appendChild(divItemIE);
-                                            break;
-                                        }
-                                    }
 
+                                    if ((i + 1) >= rlen) //If the current row is last row.
+                                    {
+                                        canvasBody.appendChild(divItemIE);
+                                        break;
+                                    }
+                                    //If current row is not last row then only proceed with this operations.
+                                    logStep("Month Finding In Next Possible Row [" + result.rows.item(i + 1).IEDate + "]");
+                                    mon2 = getMonthFromTimeStamp(result.rows.item(i + 1).IEDate);
                                     if (mon1 != mon2) {
                                         //Before creating new itemIE push existing elements to Dabba
                                         canvasBody.appendChild(divItemIE);
-
                                         NewBoxNeeded = 1;
                                     }
                                     else {
                                         NewBoxNeeded = 0;
                                     }
+
+                                    //try {
+                                    //    extraMsg = "Date Value Is [" + result.rows.item(i + 1).IEDate + "] and Row is [" + (i + 1) + "] ";
+                                    //    logStep("Month Finding In Next Possible Row [" + getMonthFromTimeStamp(result.rows.item(i+1).IEDate)+"]", 0);
+                                    //    mon2 = getMonthFromTimeStamp(result.rows.item(i + 1).IEDate);
+                                    //} catch (e) {
+                                    //    extraMsg += " -- month comparision failed, Error:[" + e.name + "]";
+                                    //    logStep("Error occured Line (163) ["+e.name+"-"+e.message+"]", 0);
+                                    //    if (e.name == "IndexSizeError") {
+                                    //        //This could be the last row; next jumping on next row is not possible. Still it needs to be checked if the 
+                                    //        canvasBody.appendChild(divItemIE);
+                                    //        break;
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        alert("Error :"+e.message + "["+e.name+"], ExtraMsg : " + extraMsg);
+                                    //        logStep(e.message, 0);
+                                    //        return;
+                                    //    }
+                                    //}
+                                    //logStep("Comparing months CurrentMonth and NextMonth i.e. [" + mon1 + "-" + mon2 + "]");
+                                    //if (mon1 != mon2) {
+                                    //    //Before creating new itemIE push existing elements to Dabba
+                                    //    canvasBody.appendChild(divItemIE);
+
+                                    //    NewBoxNeeded = 1;
+                                    //}
+                                    //else {
+                                    //    NewBoxNeeded = 0;
+                                    //}
                                 }
                             }
                         } catch (e) {
                             alert(e.message + " ExtraMsg : " + extraMsg);
                             logStep(e.message, 0);
                         }
-
 
                     }, null);
 

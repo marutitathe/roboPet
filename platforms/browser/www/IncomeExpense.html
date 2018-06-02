@@ -42,12 +42,28 @@
 
             //Converting HTML5 date input control into Native Date control
             if (device.platform.toLowerCase() != "browser") {
-                dtEntry.type = "text";
+                dtEntry.type = "text"; //Convert the input type so that local datePicker control is avoided
                 dtEntry.readOnly = true;
                 //dtEntry.onfocus = addCalendar;
                 dtEntry.onclick = addCalendar;
                 //dtEntry.onkeydown = NoKeyAllowed;
             }
+
+            var CurrDate = new Date();
+            var MM = "01";
+            if (device.platform.toLowerCase() != "browser") {
+                MM = date.getMonth() + 1; //Android month starts from 0
+            }
+            else
+            {
+                MM = date.getMonth(); //Android month starts from 0
+            }
+            
+            var dtDDMMYYYY = ("0" + date.getDate()).slice(-2) + "/" + ("0" + MM).slice(-2) + "/" + date.getFullYear();
+            dtEntry.value = dtDDMMYYYY;
+            dtEntry.dateValue = date;
+
+            dtEntry.focus();
         }
 
         function addCalendar()
@@ -63,7 +79,7 @@
         var THEME_DEVICE_DEFAULT_LIGHT = 5;
         function calendar(o) {
 
-            o.type = "text"; //Convert the current input type so that local datePicker control is avoided
+            //o.type = "text"; //Convert the current input type so that local datePicker control is avoided
 
             var options = {
                 date: new Date(),
@@ -77,8 +93,8 @@
 
             datePicker.show(options, function (date) {
                 //var dx = Date.parse(date);
-                var dtDDMMYYYY = ("0" + date.getDate()).slice(-2) + "/" + ("0" + date.getMonth()).slice(-2) + "/" + date.getFullYear();
-                alert(dtDDMMYYYY);
+                var MM = date.getMonth() + 1; //Android month starts from 0
+                var dtDDMMYYYY = ("0" + date.getDate()).slice(-2) + "/" + ("0" + MM).slice(-2) + "/" + date.getFullYear();
                 o.value = dtDDMMYYYY;
                 o.dateValue = date;
             });
@@ -187,7 +203,7 @@
                         db = window.openDatabase('roboPet.db', '1.0', 'roboPet Database', 2 * 1024 * 1024);
                     }
 
-                    var strSQL = "INSERT INTO IncExp(IncExp, IEDate, category, IEDetail, Amount) VALUES(" + incExp + ", " + _IEDate + ", " + _Category + ", '" + _IEDetail + "', " + _Amount + ")"
+                    var strSQL = "INSERT INTO IncExp(IncExp, IEDate, Category, IEDetail, Amount) VALUES(" + incExp + ", " + _IEDate + ", " + _Category + ", '" + _IEDetail + "', " + _Amount + ")"
 
                     extraInfo = "Performing SQL: " + strSQL;
                     db.transaction(function (tx) {
@@ -201,7 +217,7 @@
                     {
                         msgSuccess = "Income Record Saved";
                     }
-                    showShortToastTop(msgSuccess);
+                    showLongToastTop(msgSuccess);
 
                 } catch (e) {
                     alert("ERROR: "+e.message)
@@ -213,6 +229,8 @@
             }
             
         }
+
+
 
 
 
@@ -237,32 +255,30 @@
                     <img src="" alt="" />Expense
                 </div>
             </div>
+            <form action="#">
+                <div id="incExpBox" class="IncExp" style="display:none;margin:20px;">
+                    <p id="incExpTitle">Income Entry</p>
+                    <br />
+                    <!--<input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" />-->
+                    <!--<input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" onfocus="calendar(this);" onkeydown="return false;" />-->
+                    <!-- Adding OnFocus and OnKeyDown events to this control if it is not browser (so that Android and iOS can show native datePicker) -->
+                    <input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" dateValue="" />
+                    <select id="ddlCat" class="ddlCat genInput">
+                        <option value="1">General Exp</option>
+                        <option value="2">MSEB Exp</option>
+                    </select>
+                    <textarea id="txtDetails" placeholder="Expense Details" rows="3" class="genInput"></textarea>
+                    <input id="txtAmount" type="number" value="0.00" class="genInput" onfocus="this.select(); this.setSelectionRange(0, this.value.length);" />
 
-            <div id="incExpBox" class="IncExp" style="display:none;margin:20px;">
-                <p id="incExpTitle">Income Entry</p>
-                <br />
-                <!--<input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" />-->
-                <!--<input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" onfocus="calendar(this);" onkeydown="return false;" />-->
-                <!-- Adding OnFocus and OnKeyDown events to this control if it is not browser (so that Android and iOS can show native datePicker) -->
-                <input type="date" id="entryDate" contenteditable="true" placeholder="Entry Date" class="genInput" dateValue="" />
-                <select id="ddlCat" class="ddlCat genInput">
-                    <option value="1">General Exp</option>
-                    <option value="2">MSEB Exp</option>
-                </select>
-                <textarea id="txtDetails" placeholder="Expense Details" rows="3" class="genInput">
+                    <div class="actionButtons">
+                        <input id="btnBack" type="button" value="Back" onclick="goBack();" />
+                        <input id="btnSave" type="button" value="Save" onclick="saveIncExp();" />
+                    </div>
 
-                </textarea>
-                <input id="txtAmount" type="number" value="0.00" class="genInput" />
+                    <p id="deviceProperties">Loading device properties...</p>
 
-                <div class="actionButtons">
-                    <input id="btnBack" type="button" value="Back" onclick="goBack();"   />
-                    <input id="btnSave" type="button" value="Save" onclick="saveIncExp();" />
                 </div>
-
-                <p id="deviceProperties">Loading device properties...</p>
-
-            </div>
-
+            </form>
         </div>
         <div class="canvasFooter"></div>
     </div>
