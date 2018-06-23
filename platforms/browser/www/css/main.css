@@ -183,6 +183,7 @@
     -moz-user-select: none;     /* Firefox all */
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;          /* Likely future */
+    border-bottom:1px solid #D0CFCA;
 }
 
     .incExpViewIE:hover {

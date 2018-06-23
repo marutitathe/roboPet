@@ -161,7 +161,8 @@
             {
                 _IEDate = Date.parse(document.getElementById("entryDate").value);
             }
-            if(isNaN(_IEDate))
+
+            if (isNaN(_IEDate))
             {
                 showShortToastTop("Wrong Date Entered");
                 document.getElementById("entryDate").focus();

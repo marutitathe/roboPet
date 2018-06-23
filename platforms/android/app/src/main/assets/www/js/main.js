@@ -30,7 +30,7 @@ function logStep(str,isNew)
 function getCurrentDateTime()
 {
     d = new Date();
-    return d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ":" + d.getMilliseconds();
+    return d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ":" + d.getMilliseconds();
 }
 
 function getTimeStamp(VYear, VMonth, VDate)
@@ -47,7 +47,7 @@ function getDateFromTimeStamp(ts)
         return;
     }
     var d = new Date(ts);
-    return d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+    return d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
 }
 
 function getMonthFromTimeStamp(ts)
@@ -57,7 +57,7 @@ function getMonthFromTimeStamp(ts)
         return;
     }
     var d = new Date(ts);
-    return d.getMonth();
+    return (d.getMonth()+1);
 }
 
 function getItemDateMonth(ts)
@@ -69,7 +69,7 @@ function getItemDateMonth(ts)
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Augu", "Sep", "Oct", "Nov", "Dec"];
     var d = new Date(ts);
     //Month - 1 because array starts with zero while Month starts with 1
-    var r = monthNames[d.getMonth() - 1] + " " + d.getFullYear();
+    var r = monthNames[d.getMonth()] + " " + d.getFullYear();
     return r;
 
 }
